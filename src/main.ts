@@ -54,7 +54,7 @@ class SoundAlertPlugin {
       try {
         await pi.commands.register({
           id: 'sound-alert.openSettings',
-          title: '任务完成提示音: 打开设置面板',
+          title: 'TASK Dida任务提示音: 打开设置面板',
           keywords: ['sound', 'alert', '声音', '提示音', '试听', '设置'],
           run: async () => {
             if (pi.ui?.openPanel) {

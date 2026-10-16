@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "io.github.xideadev.sound-alert",
-  "name": "任务完成提示音",
+  "name": "TASK Dida任务提示音",
   "version": "1.0.0",
   "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
   "author": "XideaDev",
@@ -40,7 +40,7 @@
       "safetyNotes": "Invokes the operating system's native command-line audio player to produce local alert sounds. Zero network requests, and no access to your API keys, credentials, or personal code files."
     },
     "zh-CN": {
-      "name": "任务完成提示音",
+      "name": "TASK Dida任务提示音",
       "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
       "safetyNotes": "调用操作系统原生音频播放命令（macOS 为 afplay，Windows 为 PowerShell SoundPlayer，Linux 为 aplay）播放本地提示音。无任何网络请求，绝不接触任何 API 密钥、凭据或代码文件。"
     }
@@ -49,7 +49,7 @@
     "commands": [
       {
         "id": "sound-alert.openSettings",
-        "title": "任务完成提示音: 打开设置面板",
+        "title": "TASK Dida任务提示音: 打开设置面板",
         "keywords": [
           "sound",
           "alert",

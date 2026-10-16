@@ -13,8 +13,8 @@
 | **开源仓库** | 公开 GitHub 仓库 | `https://github.com/XideaDev/PI-Desktop-Plugin-Sundalert` |
 | **开源协议** | 开放开源协议 | `MIT` |
 | **安装包名称** | `<id>-<version>.piplug` | `io.github.xideadev.sound-alert-1.0.0.piplug` |
-| **文件大小** | < 50MB (Store-only 仅存储 ZIP) | `406,846 字节` (~397 KB) |
-| **SHA-256 散列值** | 用于市场 CDN 完整性校验 | `276329e2cfdb40f1a47fc543f336a06498abb7b30b7e15711bad14c5b3c226d5` |
+| **文件大小** | < 50MB (Store-only 仅存储 ZIP) | `406,862 字节` (~397 KB) |
+| **SHA-256 散列值** | 用于市场 CDN 完整性校验 | `1a139bc4054076929903455df14860d79e87443190bdecf11a293c76d05f0471` |
 
 ---
 
@@ -46,7 +46,7 @@
 ```json
 {
   "id": "io.github.xideadev.sound-alert",
-  "name": "任务完成提示音",
+  "name": "TASK Dida任务提示音",
   "version": "1.0.0",
   "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
   "author": "XideaDev",
@@ -57,14 +57,14 @@
   "categories": [
     "productivity"
   ],
-  "shasum": "276329e2cfdb40f1a47fc543f336a06498abb7b30b7e15711bad14c5b3c226d5",
+  "shasum": "1a139bc4054076929903455df14860d79e87443190bdecf11a293c76d05f0471",
   "i18n": {
     "en": {
       "name": "Task Sound Alert",
       "description": "Play pleasant native sound alerts when AI finishes tasks, errors, or requires attention. Supports audition and sound customization."
     },
     "zh-CN": {
-      "name": "任务完成提示音",
+      "name": "TASK Dida任务提示音",
       "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。"
     }
   }
