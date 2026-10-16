@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="pi-plugin-chrome" content="v2" />
+    <title>任务完成提示音 设置</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #131416;
+        --card: #1c1d21;
+        --card-subtle: #23252a;
+        --hover: rgba(255, 255, 255, 0.06);
+        --fg: #f3f4f6;
+        --muted: #9ca3af;
+        --border: rgba(255, 255, 255, 0.1);
+        --accent: #6366f1;
+        --accent-hover: #4f46e5;
+        --accent-fg: #ffffff;
+        --success: #10b981;
+        --danger: #ef4444;
+      }
+      :root[data-base="light"] {
+        color-scheme: light;
+        --bg: #f9fafb;
+        --card: #ffffff;
+        --card-subtle: #f3f4f6;
+        --hover: rgba(0, 0, 0, 0.04);
+        --fg: #111827;
+        --muted: #6b7280;
+        --border: rgba(0, 0, 0, 0.1);
+        --accent: #4f46e5;
+        --accent-hover: #4338ca;
+        --accent-fg: #ffffff;
+        --success: #059669;
+        --danger: #dc2626;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        background: var(--bg);
+        color: var(--fg);
+        font: 13px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft YaHei", sans-serif;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        background: var(--card);
+        border-bottom: 1px solid var(--border);
+      }
+      header .title-area h1 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      header .title-area p {
+        margin: 4px 0 0;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      main {
+        flex: 1;
+        overflow-y: auto;
+        padding: 18px 20px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 16px;
+      }
+      .card-title {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 14px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .row:first-child {
+        padding-top: 0;
+      }
+      .row-info {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding-right: 16px;
+      }
+      .row-label {
+        font-weight: 500;
+        font-size: 13px;
+      }
+      .row-desc {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      /* Switch */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 36px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+      .switch input { opacity: 0; width: 0; height: 0; }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: var(--border);
+        transition: .2s;
+        border-radius: 20px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 14px;
+        width: 14px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: .2s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: var(--accent);
+      }
+      input:checked + .slider:before {
+        transform: translateX(16px);
+      }
+
+      /* Form controls */
+      select, input[type="text"], input[type="number"] {
+        background: var(--card-subtle);
+        border: 1px solid var(--border);
+        color: var(--fg);
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        outline: none;
+      }
+      select:focus, input[type="text"]:focus, input[type="number"]:focus {
+        border-color: var(--accent);
+      }
+      input[type="range"] {
+        accent-color: var(--accent);
+        cursor: pointer;
+      }
+
+      .btn {
+        background: var(--card-subtle);
+        border: 1px solid var(--border);
+        color: var(--fg);
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: background .15s, border-color .15s;
+      }
+      .btn:hover {
+        background: var(--hover);
+        border-color: var(--accent);
+      }
+      .btn.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--accent-fg);
+      }
+      .btn.primary:hover {
+        background: var(--accent-hover);
+      }
+      .btn.sm {
+        padding: 4px 8px;
+        font-size: 11px;
+      }
+
+      .sound-item-box {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .sound-item-box:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+      .sound-item-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .custom-path-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+      }
+      .custom-path-bar input {
+        flex: 1;
+      }
+
+      footer {
+        padding: 12px 20px;
+        background: var(--card);
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%) translateY(50px);
+        background: rgba(0, 0, 0, 0.85);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 12px;
+        opacity: 0;
+        transition: transform .2s ease, opacity .2s ease;
+        pointer-events: none;
+        z-index: 1000;
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="title-area">
+        <h1>任务完成提示音 (SoundAlert)</h1>
+        <p>配置完成提示、音效试听及系统自带蜂鸣声接管替换</p>
+      </div>
+    </header>
+
+    <main>
+      <!-- 全局总控 -->
+      <div class="card">
+        <div class="card-title">基本设置</div>
+        
+        <div class="row">
+          <div class="row-info">
+            <span class="row-label">启用声音通知</span>
+            <span class="row-desc">在任务完成、失败或交互时播放声音提示</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="enabled">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <span class="row-label">声音主题模式</span>
+            <span class="row-desc">选择预设内建音效、系统原生音频或完全自定义音频</span>
+          </div>
+          <select id="soundTheme" style="width: 180px;">
+            <option value="built-in">内建清脆音 (Built-in)</option>
+            <option value="system">系统经典音 (macOS/Win原生)</option>
+            <option value="custom">自定义音频路径 (Custom)</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <span class="row-label">提示音量大小</span>
+            <span class="row-desc" id="volumeLabel">当前音量: 80%</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="range" id="volume" min="0" max="100" value="80" style="width: 140px;">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <span class="row-label">仅当窗口在后台时发声</span>
+            <span class="row-desc">若当前正聚焦看着 PI-Desktop 窗口敲代码则保持静音</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="onlyWhenBlurred">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="row-info">
+            <span class="row-label">防爆音冷却间隔</span>
+            <span class="row-desc">避免密集并发通知导致声音重叠撕裂（秒）</span>
+          </div>
+          <input type="number" id="debounceSeconds" min="0.5" max="10" step="0.5" value="2.0" style="width: 70px;">
+        </div>
+      </div>
+
+      <!-- 提示音试听与替换 -->
+      <div class="card">
+        <div class="card-title">提示音试听与定制替换</div>
+
+        <!-- 1. 任务完成 -->
+        <div class="sound-item-box">
+          <div class="sound-item-header">
+            <div class="row-info">
+              <span class="row-label">任务成功完成 (Task Completed)</span>
+              <span class="row-desc">AI 顺利跑完代码或执行完回合时触发</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button class="btn sm" id="testCompleteBtn">试听音效</button>
+              <label class="switch">
+                <input type="checkbox" id="playOnSuccess">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="custom-path-bar" id="customSuccessRow" style="display: none;">
+            <input type="text" id="customSoundSuccess" placeholder="音频文件完整绝对路径，例如 /Users/xxx/sound.mp3 或 .wav">
+          </div>
+        </div>
+
+        <!-- 2. 任务异常中断 -->
+        <div class="sound-item-box">
+          <div class="sound-item-header">
+            <div class="row-info">
+              <span class="row-label">任务异常报错 (Task Failed)</span>
+              <span class="row-desc">执行过程遇到致命异常、中断或报错时触发</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button class="btn sm" id="testErrorBtn">试听音效</button>
+              <label class="switch">
+                <input type="checkbox" id="playOnError">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="custom-path-bar" id="customErrorRow" style="display: none;">
+            <input type="text" id="customSoundError" placeholder="音频文件完整绝对路径，例如 /Users/xxx/error.wav">
+          </div>
+        </div>
+
+        <!-- 3. 系统提示与交互 (接管自带蜂鸣声) -->
+        <div class="sound-item-box">
+          <div class="sound-item-header">
+            <div class="row-info">
+              <span class="row-label">系统交互提示 (Ask / Plan 审批)</span>
+              <span class="row-desc">接管并替换 pi-desktop 自带单调的 660Hz 蜂鸣声</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button class="btn sm" id="testNotifyBtn">试听音效</button>
+              <label class="switch">
+                <input type="checkbox" id="playOnNotify">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="custom-path-bar" id="customNotifyRow" style="display: none;">
+            <input type="text" id="customSoundNotify" placeholder="自定义交互音频文件路径">
+          </div>
+          <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="overrideHostBeep">
+            <label for="overrideHostBeep" style="font-size: 12px; color: var(--muted); cursor: pointer;">
+              优先使用悦耳铃声替换自带蜂鸣音
+            </label>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <button class="btn" id="resetBtn">恢复默认值</button>
+      <button class="btn primary" id="saveBtn">保存设置</button>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="./soundsData.js"></script>
+    <script>
+      // 1. 尝试获取 PI-Desktop 标准 bridge
+      const bridge = window.pluginBridge || window.piDesktop || window.bridge || null;
+
+      async function invoke(channel, payload) {
+        if (bridge && typeof bridge.invoke === "function") {
+          return await bridge.invoke(channel, payload);
+        }
+        return null;
+      }
+
+      function toast(msg) {
+        const el = document.getElementById("toast");
+        el.textContent = msg;
+        el.classList.add("show");
+        setTimeout(() => el.classList.remove("show"), 2500);
+      }
+
+      let currentSettings = {
+        enabled: true,
+        soundTheme: "built-in",
+        volume: 80,
+        playOnSuccess: true,
+        playOnError: true,
+        playOnNotify: true,
+        overrideHostBeep: true,
+        onlyWhenBlurred: false,
+        debounceSeconds: 2.0,
+        customSoundSuccess: "",
+        customSoundError: "",
+        customSoundNotify: ""
+      };
+
+      async function loadSettings() {
+        try {
+          const res = await invoke("soundAlert.getSettings");
+          if (res && res.settings) {
+            currentSettings = { ...currentSettings, ...res.settings };
+          } else {
+            const local = localStorage.getItem("sound_alert_settings");
+            if (local) {
+              try { currentSettings = { ...currentSettings, ...JSON.parse(local) }; } catch (e) {}
+            }
+          }
+        } catch (err) {
+          console.warn("Bridge invoke unavailable, using local cache:", err);
+          const local = localStorage.getItem("sound_alert_settings");
+          if (local) {
+            try { currentSettings = { ...currentSettings, ...JSON.parse(local) }; } catch (e) {}
+          }
+        }
+        applyToUI(currentSettings);
+      }
+
+      function applyToUI(s) {
+        document.getElementById("enabled").checked = s.enabled ?? true;
+        document.getElementById("soundTheme").value = s.soundTheme ?? "built-in";
+        document.getElementById("volume").value = s.volume ?? 80;
+        document.getElementById("volumeLabel").textContent = `当前音量: ${s.volume ?? 80}%`;
+        document.getElementById("onlyWhenBlurred").checked = s.onlyWhenBlurred ?? false;
+        document.getElementById("debounceSeconds").value = s.debounceSeconds ?? 2.0;
+
+        document.getElementById("playOnSuccess").checked = s.playOnSuccess ?? true;
+        document.getElementById("playOnError").checked = s.playOnError ?? true;
+        document.getElementById("playOnNotify").checked = s.playOnNotify ?? true;
+        document.getElementById("overrideHostBeep").checked = s.overrideHostBeep ?? true;
+
+        document.getElementById("customSoundSuccess").value = s.customSoundSuccess || "";
+        document.getElementById("customSoundError").value = s.customSoundError || "";
+        document.getElementById("customSoundNotify").value = s.customSoundNotify || "";
+
+        toggleCustomRows(s.soundTheme === "custom");
+      }
+
+      function toggleCustomRows(isCustom) {
+        document.getElementById("customSuccessRow").style.display = isCustom ? "flex" : "none";
+        document.getElementById("customErrorRow").style.display = isCustom ? "flex" : "none";
+        document.getElementById("customNotifyRow").style.display = isCustom ? "flex" : "none";
+      }
+
+      async function saveCurrentSettings() {
+        const newSettings = {
+          enabled: document.getElementById("enabled").checked,
+          soundTheme: document.getElementById("soundTheme").value,
+          volume: parseInt(document.getElementById("volume").value, 10),
+          onlyWhenBlurred: document.getElementById("onlyWhenBlurred").checked,
+          debounceSeconds: parseFloat(document.getElementById("debounceSeconds").value),
+          playOnSuccess: document.getElementById("playOnSuccess").checked,
+          playOnError: document.getElementById("playOnError").checked,
+          playOnNotify: document.getElementById("playOnNotify").checked,
+          overrideHostBeep: document.getElementById("overrideHostBeep").checked,
+          customSoundSuccess: document.getElementById("customSoundSuccess").value.trim(),
+          customSoundError: document.getElementById("customSoundError").value.trim(),
+          customSoundNotify: document.getElementById("customSoundNotify").value.trim()
+        };
+
+        localStorage.setItem("sound_alert_settings", JSON.stringify(newSettings));
+
+        try {
+          await invoke("soundAlert.saveSettings", { settings: newSettings });
+          currentSettings = newSettings;
+          toast("设置已保存并即时生效");
+        } catch (err) {
+          currentSettings = newSettings;
+          toast("设置已保存到本地配置");
+        }
+      }
+
+      // 纯网页端 Web Audio 播放兜底
+      function playWebAudio(type, volume) {
+        const volFraction = Math.max(0, Math.min(100, volume)) / 100;
+        
+        if (window.EMBEDDED_SOUNDS && window.EMBEDDED_SOUNDS[type]) {
+          try {
+            const audio = new Audio(window.EMBEDDED_SOUNDS[type]);
+            audio.volume = volFraction;
+            audio.play().catch(e => {
+              console.warn("Audio tag failed, fallback to oscillator:", e);
+              playOscillator(type, volFraction);
+            });
+            return;
+          } catch (e) {
+            console.warn("Audio creation failed:", e);
+          }
+        }
+
+        playOscillator(type, volFraction);
+      }
+
+      function playOscillator(type, vol) {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const now = ctx.currentTime;
+          
+          if (type === 'complete') {
+            playTone(ctx, 1046.5, now, 0.15, vol * 0.7);
+            playTone(ctx, 1567.98, now + 0.12, 0.35, vol * 0.8);
+          } else if (type === 'error') {
+            playTone(ctx, 369.99, now, 0.18, vol * 0.7);
+            playTone(ctx, 293.66, now + 0.15, 0.35, vol * 0.6);
+          } else {
+            playTone(ctx, 1318.51, now, 0.35, vol * 0.7);
+          }
+        } catch (e) {
+          console.error("Web Audio oscillator failed:", e);
+        }
+      }
+
+      function playTone(ctx, freq, startTime, duration, maxGain) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, startTime);
+        
+        gain.gain.setValueAtTime(0.0001, startTime);
+        gain.gain.linearRampToValueAtTime(maxGain, startTime + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + duration);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.start(startTime);
+        osc.stop(startTime + duration + 0.05);
+      }
+
+      // UI Events
+      document.getElementById("volume").addEventListener("input", (e) => {
+        document.getElementById("volumeLabel").textContent = `当前音量: ${e.target.value}%`;
+      });
+
+      document.getElementById("soundTheme").addEventListener("change", (e) => {
+        toggleCustomRows(e.target.value === "custom");
+      });
+
+      document.getElementById("saveBtn").addEventListener("click", saveCurrentSettings);
+
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        applyToUI({
+          enabled: true,
+          soundTheme: "built-in",
+          volume: 80,
+          playOnSuccess: true,
+          playOnError: true,
+          playOnNotify: true,
+          overrideHostBeep: true,
+          onlyWhenBlurred: false,
+          debounceSeconds: 2.0,
+          customSoundSuccess: "",
+          customSoundError: "",
+          customSoundNotify: ""
+        });
+        toast("已重置为默认值，请点击保存");
+      });
+
+      // 试听测试逻辑
+      async function testPlay(type) {
+        const theme = document.getElementById("soundTheme").value;
+        const volume = parseInt(document.getElementById("volume").value, 10);
+        let customPath = "";
+        if (theme === "custom") {
+          if (type === "complete") customPath = document.getElementById("customSoundSuccess").value.trim();
+          if (type === "error") customPath = document.getElementById("customSoundError").value.trim();
+          if (type === "notify") customPath = document.getElementById("customSoundNotify").value.trim();
+        }
+
+        toast(`正在播放 [${type}] 试听音效...`);
+
+        playWebAudio(type, volume);
+
+        try {
+          await invoke("soundAlert.testPlay", { type, customPath, volume });
+        } catch (err) {
+          console.log("Backend native testPlay skipped or handled by webAudio:", err);
+        }
+      }
+
+      document.getElementById("testCompleteBtn").addEventListener("click", () => testPlay("complete"));
+      document.getElementById("testErrorBtn").addEventListener("click", () => testPlay("error"));
+      document.getElementById("testNotifyBtn").addEventListener("click", () => testPlay("notify"));
+
+      loadSettings();
+    </script>
+  </body>
+</html>

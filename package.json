@@ -1,0 +1,26 @@
+{
+  "name": "pi-desktop-plugin-soundalert",
+  "version": "1.0.0",
+  "description": "Native and pleasant sound alerts upon task completion for PI-Desktop",
+  "main": "main.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/XideaDev/PI-Desktop-Plugin-Sundalert.git"
+  },
+  "keywords": [
+    "pi-desktop",
+    "plugin",
+    "sound-alert",
+    "notification"
+  ],
+  "author": "XideaDev",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  }
+}
