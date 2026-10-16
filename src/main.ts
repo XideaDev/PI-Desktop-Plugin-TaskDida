@@ -53,7 +53,7 @@ class SoundAlertPlugin {
     if (typeof pi !== 'undefined' && pi.commands?.register) {
       try {
         await pi.commands.register({
-          id: 'sound-alert.openSettings',
+          id: 'task-dida.openSettings',
           title: 'TASK Dida任务提示音: 打开设置面板',
           keywords: ['sound', 'alert', '声音', '提示音', '试听', '设置'],
           run: async () => {
@@ -105,7 +105,7 @@ class SoundAlertPlugin {
     }
     if (typeof pi !== 'undefined' && pi.commands?.unregister) {
       try {
-        await pi.commands.unregister('sound-alert.openSettings');
+        await pi.commands.unregister('task-dida.openSettings');
       } catch {}
     }
   }

@@ -1,5 +1,5 @@
 {
-  "name": "pi-desktop-plugin-soundalert",
+  "name": "pi-desktop-plugin-taskdida",
   "version": "1.0.0",
   "description": "Native and pleasant sound alerts upon task completion for PI-Desktop",
   "main": "main.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/XideaDev/PI-Desktop-Plugin-Sundalert.git"
+    "url": "https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida.git"
   },
   "keywords": [
     "pi-desktop",

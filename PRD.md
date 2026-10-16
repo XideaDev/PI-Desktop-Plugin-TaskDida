@@ -3,7 +3,7 @@
 > **版本**：v1.0.0  
 > **状态**：已批准 / 开发中  
 > **类型**：PI-Desktop 官方市场扩展插件 (Extension Plugin)  
-> **插件 ID**：`io.github.xideadev.sound-alert`  
+> **插件 ID**：`io.github.xideadev.task-dida`  
 > **中文名称**：TASK Dida任务提示音  
 > **英文名称**：Task Sound Alert  
 

@@ -8,13 +8,13 @@
 
 | 材料项 | 内容 / 规范要求 | 本项目具体参数 |
 | :--- | :--- | :--- |
-| **插件 ID** | 符合 `^[a-zA-Z0-9][a-zA-Z0-9._-]*$` 反向域名 | `io.github.xideadev.sound-alert` |
+| **插件 ID** | 符合 `^[a-zA-Z0-9][a-zA-Z0-9._-]*$` 反向域名 | `io.github.xideadev.task-dida` |
 | **版本号 (SemVer)** | 标准 SemVer 规范 | `1.0.0` (Git Tag: `v1.0.0`) |
-| **开源仓库** | 公开 GitHub 仓库 | `https://github.com/XideaDev/PI-Desktop-Plugin-Sundalert` |
+| **开源仓库** | 公开 GitHub 仓库 | `https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida` |
 | **开源协议** | 开放开源协议 | `MIT` |
-| **安装包名称** | `<id>-<version>.piplug` | `io.github.xideadev.sound-alert-1.0.0.piplug` |
-| **文件大小** | < 50MB (Store-only 仅存储 ZIP) | `406,862 字节` (~397 KB) |
-| **SHA-256 散列值** | 用于市场 CDN 完整性校验 | `1a139bc4054076929903455df14860d79e87443190bdecf11a293c76d05f0471` |
+| **安装包名称** | `<id>-<version>.piplug` | `io.github.xideadev.task-dida-1.0.0.piplug` |
+| **文件大小** | < 50MB (Store-only 仅存储 ZIP) | `406,869 字节` (~397 KB) |
+| **SHA-256 散列值** | 用于市场 CDN 完整性校验 | `fd43e416306f25416c711d9851b72ac0d75958ea9b27b34176bf483e2540526d` |
 
 ---
 
@@ -24,7 +24,7 @@
 1. **提交代码并推送到 GitHub 远程仓库**：
    ```bash
    git init
-   git remote add origin https://github.com/XideaDev/PI-Desktop-Plugin-Sundalert.git
+   git remote add origin https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida.git
    git add .
    git commit -m "chore: release v1.0.0 of sound-alert plugin"
    git branch -M main
@@ -32,9 +32,9 @@
    ```
 2. **打 Tag 并发布 GitHub Release**：
    - Tag 名称：`v1.0.0`
-   - Release 标题：`v1.0.0: Task Sound Alert for PI-Desktop`
+   - Release 标题：`v1.0.0: TASK Dida (Sound Alert for PI-Desktop)`
    - **重要附件**：在 Release Assets 中上传打包好的安装包：  
-     `dist/io.github.xideadev.sound-alert-1.0.0.piplug`
+     `dist/io.github.xideadev.task-dida-1.0.0.piplug`
 
 ---
 
@@ -45,22 +45,22 @@
 
 ```json
 {
-  "id": "io.github.xideadev.sound-alert",
+  "id": "io.github.xideadev.task-dida",
   "name": "TASK Dida任务提示音",
   "version": "1.0.0",
   "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
   "author": "XideaDev",
   "license": "MIT",
-  "homepage": "https://github.com/XideaDev/PI-Desktop-Plugin-Sundalert",
-  "sourceRepository": "https://github.com/XideaDev/PI-Desktop-Plugin-Sundalert",
+  "homepage": "https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida",
+  "sourceRepository": "https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida",
   "sourceRef": "v1.0.0",
   "categories": [
     "productivity"
   ],
-  "shasum": "1a139bc4054076929903455df14860d79e87443190bdecf11a293c76d05f0471",
+  "shasum": "fd43e416306f25416c711d9851b72ac0d75958ea9b27b34176bf483e2540526d",
   "i18n": {
     "en": {
-      "name": "Task Sound Alert",
+      "name": "TASK Dida",
       "description": "Play pleasant native sound alerts when AI finishes tasks, errors, or requires attention. Supports audition and sound customization."
     },
     "zh-CN": {
@@ -71,7 +71,7 @@
 }
 ```
 
-4. 提交 Pull Request，标题格式：`feat(plugins): add io.github.xideadev.sound-alert v1.0.0`。
+4. 提交 Pull Request，标题格式：`feat(plugins): add io.github.xideadev.task-dida v1.0.0`。
 
 ---
 
