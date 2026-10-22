@@ -13,8 +13,8 @@
 | **开源仓库** | 公开 GitHub 仓库 | `https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida` |
 | **开源协议** | 开放开源协议 | `MIT` |
 | **安装包名称** | `<id>-<version>.piplug` | `io.github.xideadev.task-dida-1.0.0.piplug` |
-| **文件大小** | < 50MB (Store-only 仅存储 ZIP) | `406,869 字节` (~397 KB) |
-| **SHA-256 散列值** | 用于市场 CDN 完整性校验 | `fd43e416306f25416c711d9851b72ac0d75958ea9b27b34176bf483e2540526d` |
+| **文件大小** | < 50MB (Store-only 仅存储 ZIP) | `419,196 字节` (~409 KB) |
+| **SHA-256 散列值** | 用于市场 CDN 完整性校验 | `2eb8f179bfc6f79f838cf9805277a63670d30bf84f350c65df5eafdeb5be4823` |
 
 ---
 
@@ -46,7 +46,7 @@
 ```json
 {
   "id": "io.github.xideadev.task-dida",
-  "name": "TASK Dida任务提示音",
+  "name": "任务提示音",
   "version": "1.0.0",
   "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
   "author": "XideaDev",
@@ -57,14 +57,14 @@
   "categories": [
     "productivity"
   ],
-  "shasum": "fd43e416306f25416c711d9851b72ac0d75958ea9b27b34176bf483e2540526d",
+  "shasum": "2eb8f179bfc6f79f838cf9805277a63670d30bf84f350c65df5eafdeb5be4823",
   "i18n": {
     "en": {
       "name": "TASK Dida",
       "description": "Play pleasant native sound alerts when AI finishes tasks, errors, or requires attention. Supports audition and sound customization."
     },
     "zh-CN": {
-      "name": "TASK Dida任务提示音",
+      "name": "任务提示音",
       "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。"
     }
   }

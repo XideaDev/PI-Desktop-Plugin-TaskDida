@@ -1,4 +1,4 @@
-# TASK Dida任务提示音 (Task Sound Alert for PI-Desktop)
+# 任务提示音 (Task Sound Alert for PI-Desktop)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![PI-Desktop Plugin](https://img.shields.io/badge/PI--Desktop-Plugin-6366f1.svg)](https://github.com/vastsa/PI-Desktop)
@@ -26,7 +26,7 @@ A lightweight, zero-dependency sound alert plugin designed specifically for **PI
 ### 方式一：从官方插件市场一键安装 (推荐)
 1. 打开 PI-Desktop 客户端；
 2. 进入 **设置 (Settings)** → **插件 (Plugins)** → **插件市场 (Marketplace)**；
-3. 搜索 `TASK Dida任务提示音` 或 `Task Sound Alert`；
+3. 搜索 `任务提示音` 或 `TASK Dida`；
 4. 点击 **安装 (Install)** 并授权声音播放权限即可。
 
 ### 方式二：从本地 `.piplug` 文件安装
@@ -39,7 +39,7 @@ A lightweight, zero-dependency sound alert plugin designed specifically for **PI
 ## 配置与试听面板
 
 安装后，可通过以下方式打开专属可视化设置与试听面板：
-- 按下快捷键 `Cmd + Shift + P`（Windows 为 `Ctrl + Shift + P`），搜索命令 **“TASK Dida任务提示音: 打开设置面板”**；
+- 按下快捷键 `Cmd + Shift + P`（Windows 为 `Ctrl + Shift + P`），搜索命令 **“任务提示音: 打开设置面板”**；
 - 在面板中可调节提示音量、开关各项通知，并支持针对各场景点击 **“试听音效”**。
 
 ---

@@ -42,6 +42,7 @@ const player_1 = require("./audio/player");
 const throttler_1 = require("./audio/throttler");
 const turnWatcher_1 = require("./watcher/turnWatcher");
 const settings_1 = require("./config/settings");
+const focusDetector_1 = require("./audio/focusDetector");
 class SoundAlertPlugin {
     player;
     throttler;
@@ -49,6 +50,7 @@ class SoundAlertPlugin {
     settings = { ...settings_1.DEFAULT_SETTINGS };
     pluginRootDir;
     configFilePath;
+    registeredEventHandlers = [];
     constructor() {
         this.pluginRootDir = __dirname;
         this.configFilePath = path.join(this.pluginRootDir, 'settings.json');
@@ -68,11 +70,11 @@ class SoundAlertPlugin {
             try {
                 await pi.commands.register({
                     id: 'task-dida.openSettings',
-                    title: 'TASK Dida任务提示音: 打开设置面板',
-                    keywords: ['sound', 'alert', '声音', '提示音', '试听', '设置'],
+                    title: '任务提示音: 打开设置面板',
+                    keywords: ['taskdida', 'dida', 'sound', 'alert', '声音', '提示音', '试听', '设置'],
                     run: async () => {
                         if (pi.ui?.openPanel) {
-                            await pi.ui.openPanel({ title: '提示音设置' });
+                            await pi.ui.openPanel({ title: '任务提示音 设置' });
                         }
                     }
                 });
@@ -81,28 +83,29 @@ class SoundAlertPlugin {
                 console.warn('[SoundAlert] Failed to register command:', err);
             }
         }
-        // 3. Hook host events if available
+        // 3. Hook host events if available (with unregister tracking)
         if (typeof pi !== 'undefined' && pi.events) {
             try {
-                // AI 完成回合
-                pi.events.on('agent:done', () => {
+                const onDone = () => {
                     this.triggerAlert('complete', 'Host agent:done event');
-                });
-                // AI 发生异常报错
-                pi.events.on('agent:error', () => {
+                };
+                const onError = () => {
                     this.triggerAlert('error', 'Host agent:error event');
-                });
-                // 关键交互提示（Ask / Permission / Plan），替代或同步系统蜂鸣
-                pi.events.on('notificationSound', () => {
-                    if (this.settings.overrideHostBeep) {
+                };
+                const onNotificationSound = () => {
+                    if (this.settings.overrideHostBeep && this.settings.playOnNotify) {
                         this.triggerAlert('notify', 'Host notificationSound intercepted');
                     }
-                });
-                pi.events.on('agent:ask', () => {
-                    if (this.settings.overrideHostBeep) {
+                };
+                const onAsk = () => {
+                    if (this.settings.overrideHostBeep && this.settings.playOnNotify) {
                         this.triggerAlert('notify', 'Host agent:ask intercepted');
                     }
-                });
+                };
+                this.addHostEventListener('agent:done', onDone);
+                this.addHostEventListener('agent:error', onError);
+                this.addHostEventListener('notificationSound', onNotificationSound);
+                this.addHostEventListener('agent:ask', onAsk);
             }
             catch (err) {
                 console.warn('[SoundAlert] Failed to bind pi.events:', err);
@@ -121,6 +124,24 @@ class SoundAlertPlugin {
                 await pi.commands.unregister('task-dida.openSettings');
             }
             catch { }
+        }
+        // Unbind all host event listeners to avoid memory leak and duplicate alerts on reload
+        if (typeof pi !== 'undefined' && pi.events?.off) {
+            for (const { event, handler } of this.registeredEventHandlers) {
+                try {
+                    pi.events.off(event, handler);
+                }
+                catch (err) {
+                    console.warn(`[SoundAlert] Failed to off event ${event}:`, err);
+                }
+            }
+        }
+        this.registeredEventHandlers = [];
+    }
+    addHostEventListener(event, handler) {
+        if (typeof pi !== 'undefined' && pi.events?.on) {
+            pi.events.on(event, handler);
+            this.registeredEventHandlers.push({ event, handler });
         }
     }
     loadSettings() {
@@ -155,7 +176,7 @@ class SoundAlertPlugin {
     }
     async saveSettings(newSettings) {
         this.settings = { ...this.settings, ...newSettings };
-        // 1. Save to local JSON
+        // 1. Save to local JSON file
         try {
             fs.writeFileSync(this.configFilePath, JSON.stringify(this.settings, null, 2), 'utf-8');
         }
@@ -181,6 +202,14 @@ class SoundAlertPlugin {
     async triggerAlert(type, reason) {
         if (!this.settings.enabled)
             return;
+        // Check onlyWhenBlurred setting: if enabled and app is focused, suppress sound
+        if (this.settings.onlyWhenBlurred) {
+            const focused = await (0, focusDetector_1.isAppFocused)();
+            if (focused) {
+                console.log(`[SoundAlert] App is focused and onlyWhenBlurred is enabled. Skip alert.`);
+                return;
+            }
+        }
         if (!this.throttler.canPlay()) {
             console.log(`[SoundAlert] Throttled alert (${type}) within cooldown period. Skip.`);
             return;

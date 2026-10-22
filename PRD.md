@@ -1,10 +1,10 @@
-# 产品需求文档 (PRD)：PI-Desktop TASK Dida任务提示音插件 (SoundAlert)
+# 产品需求文档 (PRD)：PI-Desktop 任务提示音插件 (TASK Dida)
 
 > **版本**：v1.0.0  
 > **状态**：已批准 / 开发中  
 > **类型**：PI-Desktop 官方市场扩展插件 (Extension Plugin)  
 > **插件 ID**：`io.github.xideadev.task-dida`  
-> **中文名称**：TASK Dida任务提示音  
+> **中文名称**：任务提示音  
 > **英文名称**：Task Sound Alert  
 
 ---

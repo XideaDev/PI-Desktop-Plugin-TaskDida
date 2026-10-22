@@ -539,9 +539,20 @@
         playOscillator(type, volFraction);
       }
 
+      let sharedAudioCtx = null;
+      function getAudioContext() {
+        if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
+          sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (sharedAudioCtx.state === 'suspended') {
+          sharedAudioCtx.resume().catch(() => {});
+        }
+        return sharedAudioCtx;
+      }
+
       function playOscillator(type, vol) {
         try {
-          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const ctx = getAudioContext();
           const now = ctx.currentTime;
           
           if (type === 'complete') {
@@ -604,7 +615,7 @@
         toast("已重置为默认值，请点击保存");
       });
 
-      // 试听测试逻辑
+      // 试听测试逻辑（优先后端原生播放，若未就绪则平滑使用 Web Audio 兜底，避免双声重叠）
       async function testPlay(type) {
         const theme = document.getElementById("soundTheme").value;
         const volume = parseInt(document.getElementById("volume").value, 10);
@@ -617,12 +628,18 @@
 
         toast(`正在播放 [${type}] 试听音效...`);
 
-        playWebAudio(type, volume);
-
+        let playedByBackend = false;
         try {
-          await invoke("soundAlert.testPlay", { type, customPath, volume });
+          const res = await invoke("soundAlert.testPlay", { type, customPath, volume });
+          if (res && res.ok) {
+            playedByBackend = true;
+          }
         } catch (err) {
-          console.log("Backend native testPlay skipped or handled by webAudio:", err);
+          console.warn("Backend testPlay skipped, using webAudio fallback:", err);
+        }
+
+        if (!playedByBackend) {
+          playWebAudio(type, volume);
         }
       }
 

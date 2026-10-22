@@ -144,6 +144,13 @@ class NativeAudioPlayer {
         const platform = process.platform;
         const volumeFraction = Math.max(0, Math.min(100, settings.volume)) / 100;
         return new Promise((resolve) => {
+            let settled = false;
+            const safeResolve = (val) => {
+                if (!settled) {
+                    settled = true;
+                    resolve(val);
+                }
+            };
             try {
                 if (platform === 'darwin') {
                     // macOS afplay supports volume option -v (0.0 to 1.0)
@@ -154,9 +161,9 @@ class NativeAudioPlayer {
                     proc.unref();
                     proc.on('error', (err) => {
                         console.error('[SoundAlert] macOS afplay error:', err);
-                        resolve(false);
+                        safeResolve(false);
                     });
-                    resolve(true);
+                    proc.on('spawn', () => safeResolve(true));
                 }
                 else if (platform === 'win32') {
                     // Windows PowerShell SoundPlayer with strictly escaped single quotes
@@ -169,9 +176,9 @@ class NativeAudioPlayer {
                     proc.unref();
                     proc.on('error', (err) => {
                         console.error('[SoundAlert] Windows SoundPlayer error:', err);
-                        resolve(false);
+                        safeResolve(false);
                     });
-                    resolve(true);
+                    proc.on('spawn', () => safeResolve(true));
                 }
                 else {
                     // Linux fallback (paplay -> aplay)
@@ -183,13 +190,15 @@ class NativeAudioPlayer {
                     proc.on('error', () => {
                         const fallback = (0, node_child_process_1.spawn)('aplay', [soundPath], { stdio: 'ignore', detached: true });
                         fallback.unref();
+                        fallback.on('error', () => safeResolve(false));
+                        fallback.on('spawn', () => safeResolve(true));
                     });
-                    resolve(true);
+                    proc.on('spawn', () => safeResolve(true));
                 }
             }
             catch (err) {
                 console.error('[SoundAlert] Failed to spawn audio process:', err);
-                resolve(false);
+                safeResolve(false);
             }
         });
     }
