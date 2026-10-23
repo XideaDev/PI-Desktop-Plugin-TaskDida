@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "io.github.xideadev.task-dida",
   "name": "任务提示音",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
   "author": "XideaDev",
   "license": "MIT",
