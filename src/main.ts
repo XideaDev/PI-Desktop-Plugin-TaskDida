@@ -88,11 +88,17 @@ class SoundAlertPlugin {
             this.triggerAlert('notify', 'Host agent:ask intercepted');
           }
         };
+        const onSubagent = () => {
+          if (this.settings.playOnSubagent) {
+            this.triggerAlert('subagent', 'Host subagent done');
+          }
+        };
 
         this.addHostEventListener('agent:done', onDone);
         this.addHostEventListener('agent:error', onError);
         this.addHostEventListener('notificationSound', onNotificationSound);
         this.addHostEventListener('agent:ask', onAsk);
+        this.addHostEventListener('subagent:done', onSubagent);
       } catch (err) {
         console.warn('[SoundAlert] Failed to bind pi.events:', err);
       }
@@ -206,7 +212,7 @@ class SoundAlertPlugin {
       }
     }
 
-    if (!this.throttler.canPlay()) {
+    if (!this.throttler.canPlay(type)) {
       console.log(`[SoundAlert] Throttled alert (${type}) within cooldown period. Skip.`);
       return;
     }

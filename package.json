@@ -1,6 +1,6 @@
 {
   "name": "pi-desktop-plugin-taskdida",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Native and pleasant sound alerts upon task completion for PI-Desktop",
   "main": "main.js",
   "scripts": {

@@ -408,6 +408,10 @@
             </div>
             <div style="display: flex; align-items: center; gap: 10px;">
               <button class="btn sm" id="testSubagentBtn">试听音效</button>
+              <label class="switch">
+                <input type="checkbox" id="playOnSubagent">
+                <span class="slider"></span>
+              </label>
             </div>
           </div>
         </div>
@@ -487,6 +491,7 @@
         document.getElementById("playOnSuccess").checked = s.playOnSuccess ?? true;
         document.getElementById("playOnError").checked = s.playOnError ?? true;
         document.getElementById("playOnNotify").checked = s.playOnNotify ?? true;
+        document.getElementById("playOnSubagent").checked = s.playOnSubagent ?? false;
         document.getElementById("overrideHostBeep").checked = s.overrideHostBeep ?? true;
 
         document.getElementById("customSoundSuccess").value = s.customSoundSuccess || "";
@@ -512,6 +517,7 @@
           playOnSuccess: document.getElementById("playOnSuccess").checked,
           playOnError: document.getElementById("playOnError").checked,
           playOnNotify: document.getElementById("playOnNotify").checked,
+          playOnSubagent: document.getElementById("playOnSubagent").checked,
           overrideHostBeep: document.getElementById("overrideHostBeep").checked,
           customSoundSuccess: document.getElementById("customSoundSuccess").value.trim(),
           customSoundError: document.getElementById("customSoundError").value.trim(),
@@ -619,6 +625,7 @@
           playOnSuccess: true,
           playOnError: true,
           playOnNotify: true,
+          playOnSubagent: false,
           overrideHostBeep: true,
           onlyWhenBlurred: false,
           debounceSeconds: 2.0,

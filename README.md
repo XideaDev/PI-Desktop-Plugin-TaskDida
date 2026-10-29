@@ -30,7 +30,7 @@ A lightweight, zero-dependency sound alert plugin designed specifically for **PI
 4. 点击 **安装 (Install)** 并授权声音播放权限即可。
 
 ### 方式二：从本地 `.piplug` 文件安装
-1. 前往 GitHub [Releases](https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida/releases) 下载最新的 `io.github.xideadev.task-dida-1.0.2.piplug`；
+1. 前往 GitHub [Releases](https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida/releases) 下载最新的 `io.github.xideadev.task-dida-1.0.3.piplug`；
 2. 在 PI-Desktop 中进入 **设置 → 插件**；
 3. 点击右上角的 **“从文件安装 (Install from file)”**，选择下载的 `.piplug` 文件完成导入。
 

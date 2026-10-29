@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "io.github.xideadev.task-dida",
   "name": "任务提示音",
-  "version": "1.0.2",
-  "description": "专为 PI-Desktop 打造的原生任务完成声音通知插件。内置高保真无依赖音效，多端无缝兼容并支持在线试听与自定义替换。",
+  "version": "1.0.3",
+  "description": "专为 PI-Desktop 打造的高并发原生声音通知插件。智能分级节流、内置高保真无依赖音效，多端无缝兼容并支持在线试听与自定义替换。",
   "author": "XideaDev",
   "license": "MIT",
   "main": "main.js",
@@ -36,12 +36,12 @@
   "i18n": {
     "en": {
       "name": "TASK Dida",
-      "description": "Lightweight, zero-dependency task sound alert plugin for PI-Desktop with bundled high-fidelity audio, cross-platform playback, and audition panel.",
+      "description": "High-concurrency task sound alert plugin for PI-Desktop with smart priority throttling, bundled offline audio, and cross-platform playback.",
       "safetyNotes": "Invokes local operating system audio players to produce bundled local alert sounds. Zero network requests, and no access to your API keys, credentials, or personal code files."
     },
     "zh-CN": {
       "name": "任务提示音",
-      "description": "专为 PI-Desktop 打造的原生任务完成声音通知插件。内置高保真无依赖音效，多端无缝兼容并支持在线试听与自定义替换。",
+      "description": "专为 PI-Desktop 打造的高并发原生声音通知插件。智能分级节流、内置高保真无依赖音效，多端无缝兼容并支持在线试听与自定义替换。",
       "safetyNotes": "调用本地操作系统音频播放命令（macOS 为 afplay，Windows 为内置多媒体播放接口，Linux 为 paplay/aplay）播放插件内置提示音。无任何外部网络请求，绝不接触任何 API 密钥、凭据或代码文件。"
     }
   },
