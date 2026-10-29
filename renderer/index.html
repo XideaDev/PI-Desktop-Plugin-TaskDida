@@ -294,9 +294,8 @@
             <span class="row-desc">选择预设内建音效、系统原生音频或完全自定义音频</span>
           </div>
           <select id="soundTheme" style="width: 180px;">
-            <option value="built-in">内建清脆音 (Built-in)</option>
-            <option value="system">系统经典音 (macOS/Win原生)</option>
-            <option value="custom">自定义音频路径 (Custom)</option>
+            <option value="built-in">内置高保真音效 (纯离线)</option>
+            <option value="custom">自定义本地音频路径</option>
           </select>
         </div>
 
@@ -397,6 +396,19 @@
             <label for="overrideHostBeep" style="font-size: 12px; color: var(--muted); cursor: pointer;">
               优先使用悦耳铃声替换自带蜂鸣音
             </label>
+          </div>
+        </div>
+
+        <!-- 4. 子任务完成 -->
+        <div class="sound-item-box">
+          <div class="sound-item-header">
+            <div class="row-info">
+              <span class="row-label">阶段子任务完成 (Subagent Step)</span>
+              <span class="row-desc">后台并发子智能体阶段步骤完成时的轻柔水滴提示音</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <button class="btn sm" id="testSubagentBtn">试听音效</button>
+            </div>
           </div>
         </div>
       </div>
@@ -561,6 +573,8 @@
           } else if (type === 'error') {
             playTone(ctx, 369.99, now, 0.18, vol * 0.7);
             playTone(ctx, 293.66, now + 0.15, 0.35, vol * 0.6);
+          } else if (type === 'subagent') {
+            playTone(ctx, 783.99, now, 0.18, vol * 0.6);
           } else {
             playTone(ctx, 1318.51, now, 0.35, vol * 0.7);
           }
@@ -646,6 +660,7 @@
       document.getElementById("testCompleteBtn").addEventListener("click", () => testPlay("complete"));
       document.getElementById("testErrorBtn").addEventListener("click", () => testPlay("error"));
       document.getElementById("testNotifyBtn").addEventListener("click", () => testPlay("notify"));
+      document.getElementById("testSubagentBtn").addEventListener("click", () => testPlay("subagent"));
 
       loadSettings();
     </script>

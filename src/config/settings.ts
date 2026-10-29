@@ -1,6 +1,6 @@
 export interface SoundAlertSettings {
   enabled: boolean;
-  soundTheme: 'built-in' | 'system' | 'custom';
+  soundTheme: 'built-in' | 'custom';
   volume: number; // 0 - 100
   playOnSuccess: boolean;
   playOnError: boolean;

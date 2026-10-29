@@ -1,6 +1,6 @@
 # 产品需求文档 (PRD)：PI-Desktop 任务提示音插件 (TASK Dida)
 
-> **版本**：v1.0.0  
+> **版本**：v1.0.2  
 > **状态**：已批准 / 开发中  
 > **类型**：PI-Desktop 官方市场扩展插件 (Extension Plugin)  
 > **插件 ID**：`io.github.xideadev.task-dida`  

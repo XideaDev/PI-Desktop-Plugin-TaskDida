@@ -9,12 +9,12 @@
 | 材料项 | 内容 / 规范要求 | 本项目具体参数 |
 | :--- | :--- | :--- |
 | **插件 ID** | 符合 `^[a-zA-Z0-9][a-zA-Z0-9._-]*$` 反向域名 | `io.github.xideadev.task-dida` |
-| **版本号 (SemVer)** | 标准 SemVer 规范 | `1.0.0` (Git Tag: `v1.0.0`) |
+| **版本号 (SemVer)** | 标准 SemVer 规范 | `1.0.2` (Git Tag: `v1.0.2`) |
 | **开源仓库** | 公开 GitHub 仓库 | `https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida` |
 | **开源协议** | 开放开源协议 | `MIT` |
-| **安装包名称** | `<id>-<version>.piplug` | `io.github.xideadev.task-dida-1.0.0.piplug` |
-| **文件大小** | < 50MB (Store-only 仅存储 ZIP) | `419,196 字节` (~409 KB) |
-| **SHA-256 散列值** | 用于市场 CDN 完整性校验 | `2eb8f179bfc6f79f838cf9805277a63670d30bf84f350c65df5eafdeb5be4823` |
+| **安装包名称** | `<id>-<version>.piplug` | `io.github.xideadev.task-dida-1.0.2.piplug` |
+| **文件大小** | < 50MB (Store-only 仅存储 ZIP) | `835,470 字节` (~815 KB) |
+| **SHA-256 散列值** | 用于市场 CDN 完整性校验 | `6a5a0a99f85efbc2bb105975a22ea39ff9a5b7d9a02fc16c61f842a98716de35` |
 
 ---
 
@@ -31,10 +31,10 @@
    git push -u origin main
    ```
 2. **打 Tag 并发布 GitHub Release**：
-   - Tag 名称：`v1.0.0`
-   - Release 标题：`v1.0.0: TASK Dida (Sound Alert for PI-Desktop)`
+   - Tag 名称：`v1.0.2`
+   - Release 标题：`v1.0.2: 任务提示音 (Task Sound Alert for PI-Desktop)`
    - **重要附件**：在 Release Assets 中上传打包好的安装包：  
-     `dist/io.github.xideadev.task-dida-1.0.0.piplug`
+     `dist/io.github.xideadev.task-dida-1.0.2.piplug`
 
 ---
 
@@ -47,17 +47,17 @@
 {
   "id": "io.github.xideadev.task-dida",
   "name": "任务提示音",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
   "author": "XideaDev",
   "license": "MIT",
   "homepage": "https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida",
   "sourceRepository": "https://github.com/XideaDev/PI-Desktop-Plugin-TaskDida",
-  "sourceRef": "v1.0.0",
+  "sourceRef": "v1.0.2",
   "categories": [
     "productivity"
   ],
-  "shasum": "2eb8f179bfc6f79f838cf9805277a63670d30bf84f350c65df5eafdeb5be4823",
+  "shasum": "6a5a0a99f85efbc2bb105975a22ea39ff9a5b7d9a02fc16c61f842a98716de35",
   "i18n": {
     "en": {
       "name": "TASK Dida",
@@ -71,7 +71,7 @@
 }
 ```
 
-4. 提交 Pull Request，标题格式：`feat(plugins): add io.github.xideadev.task-dida v1.0.0`。
+4. 提交 Pull Request，标题格式：`feat(plugins): update io.github.xideadev.task-dida to v1.0.2`。
 
 ---
 

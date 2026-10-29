@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "io.github.xideadev.task-dida",
   "name": "任务提示音",
-  "version": "1.0.1",
-  "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
+  "version": "1.0.2",
+  "description": "专为 PI-Desktop 打造的原生任务完成声音通知插件。内置高保真无依赖音效，多端无缝兼容并支持在线试听与自定义替换。",
   "author": "XideaDev",
   "license": "MIT",
   "main": "main.js",
@@ -32,17 +32,17 @@
     "desktop.control",
     "ui.panel"
   ],
-  "safetyNotes": "调用操作系统原生音频播放命令（macOS 为 afplay，Windows 为 PowerShell SoundPlayer，Linux 为 aplay）播放本地提示音。无任何网络请求，绝不接触任何 API 密钥、凭据或代码文件。",
+  "safetyNotes": "调用本地操作系统音频播放命令（macOS 为 afplay，Windows 为内置多媒体播放接口，Linux 为 paplay/aplay）播放插件内置提示音。无任何外部网络请求，绝不接触任何 API 密钥、凭据或代码文件。",
   "i18n": {
     "en": {
       "name": "TASK Dida",
-      "description": "Play pleasant native sound alerts when AI finishes tasks, errors, or requires attention. Supports audition and sound customization.",
-      "safetyNotes": "Invokes the operating system's native command-line audio player to produce local alert sounds. Zero network requests, and no access to your API keys, credentials, or personal code files."
+      "description": "Lightweight, zero-dependency task sound alert plugin for PI-Desktop with bundled high-fidelity audio, cross-platform playback, and audition panel.",
+      "safetyNotes": "Invokes local operating system audio players to produce bundled local alert sounds. Zero network requests, and no access to your API keys, credentials, or personal code files."
     },
     "zh-CN": {
       "name": "任务提示音",
-      "description": "在 AI 智能体完成任务回合、发生报错或等待操作时播放清脆悦耳的系统提示音，支持试听与自定义替换。",
-      "safetyNotes": "调用操作系统原生音频播放命令（macOS 为 afplay，Windows 为 PowerShell SoundPlayer，Linux 为 aplay）播放本地提示音。无任何网络请求，绝不接触任何 API 密钥、凭据或代码文件。"
+      "description": "专为 PI-Desktop 打造的原生任务完成声音通知插件。内置高保真无依赖音效，多端无缝兼容并支持在线试听与自定义替换。",
+      "safetyNotes": "调用本地操作系统音频播放命令（macOS 为 afplay，Windows 为内置多媒体播放接口，Linux 为 paplay/aplay）播放插件内置提示音。无任何外部网络请求，绝不接触任何 API 密钥、凭据或代码文件。"
     }
   },
   "contributes": {

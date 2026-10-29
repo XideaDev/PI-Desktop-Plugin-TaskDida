@@ -54,7 +54,6 @@ const ALLOWED_AUDIO_EXTENSIONS = new Set([
 function isSafeAudioFile(filePath) {
     if (!filePath || typeof filePath !== 'string')
         return false;
-    // Disallow control characters or newlines
     if (/[\r\n\0]/.test(filePath))
         return false;
     const normalized = path.normalize(filePath);
@@ -75,9 +74,16 @@ class NativeAudioPlayer {
         this.baseAssetsPath = path.join(pluginRootDir, 'assets', 'sounds');
     }
     /**
-     * Resolve appropriate sound file path based on settings and alert type
+     * Resolve sound file path strictly prioritizing plugin bundled assets.
+     * If custom audio fails or is missing, automatically falls back to bundled asset.
      */
     resolveSoundPath(type, settings) {
+        const defaultFileMap = {
+            complete: path.join(this.baseAssetsPath, 'complete.wav'),
+            error: path.join(this.baseAssetsPath, 'error.wav'),
+            notify: path.join(this.baseAssetsPath, 'notify.wav'),
+            subagent: path.join(this.baseAssetsPath, 'subagent.wav')
+        };
         if (settings.soundTheme === 'custom') {
             if (type === 'complete' && isSafeAudioFile(settings.customSoundSuccess)) {
                 return path.resolve(settings.customSoundSuccess);
@@ -89,39 +95,13 @@ class NativeAudioPlayer {
                 return path.resolve(settings.customSoundNotify);
             }
         }
-        if (settings.soundTheme === 'system') {
-            if (process.platform === 'darwin') {
-                const sysMap = {
-                    complete: '/System/Library/Sounds/Glass.aiff',
-                    error: '/System/Library/Sounds/Basso.aiff',
-                    notify: '/System/Library/Sounds/Tink.aiff'
-                };
-                const p = sysMap[type];
-                if (fs.existsSync(p))
-                    return p;
-            }
-            else if (process.platform === 'win32') {
-                const winMap = {
-                    complete: 'C:\\Windows\\Media\\chimes.wav',
-                    error: 'C:\\Windows\\Media\\chord.wav',
-                    notify: 'C:\\Windows\\Media\\ding.wav'
-                };
-                const p = winMap[type];
-                if (fs.existsSync(p))
-                    return p;
-            }
-        }
-        // Default to built-in bundled sounds
-        const fileMap = {
-            complete: path.join(this.baseAssetsPath, 'complete.wav'),
-            error: path.join(this.baseAssetsPath, 'error.wav'),
-            notify: path.join(this.baseAssetsPath, 'notify.wav')
-        };
-        return fileMap[type];
+        return defaultFileMap[type] || defaultFileMap.complete;
     }
     /**
      * Play sound using OS native zero-dependency audio commands.
-     * Arguments are passed as arrays to child_process.spawn to prevent shell injection.
+     * On Windows: Uses WMP COM player with volume control, falling back to System.Media.SoundPlayer.
+     * On macOS: Uses afplay with volume option.
+     * On Linux: Uses paplay with fallback to aplay.
      */
     async play(type, settings, customPathOverride) {
         if (!settings.enabled && !customPathOverride)
@@ -143,6 +123,7 @@ class NativeAudioPlayer {
         }
         const platform = process.platform;
         const volumeFraction = Math.max(0, Math.min(100, settings.volume)) / 100;
+        const volumePercent = Math.round(volumeFraction * 100);
         return new Promise((resolve) => {
             let settled = false;
             const safeResolve = (val) => {
@@ -166,16 +147,26 @@ class NativeAudioPlayer {
                     proc.on('spawn', () => safeResolve(true));
                 }
                 else if (platform === 'win32') {
-                    // Windows PowerShell SoundPlayer with strictly escaped single quotes
+                    // Windows: WMP COM object for full volume & mp3/wav support, with SoundPlayer fallback
                     const escapedPath = soundPath.replace(/'/g, "''");
-                    const script = `(New-Object Media.SoundPlayer '${escapedPath}').PlaySync()`;
+                    const script = `
+            try {
+              $p = New-Object -ComObject wmplayer.ocx;
+              $p.URL = '${escapedPath}';
+              $p.settings.volume = ${volumePercent};
+              $p.controls.play();
+              Start-Sleep -Milliseconds 1200;
+            } catch {
+              (New-Object Media.SoundPlayer '${escapedPath}').PlaySync();
+            }
+          `;
                     const proc = (0, node_child_process_1.spawn)('powershell', ['-NoProfile', '-NonInteractive', '-Command', script], {
                         stdio: 'ignore',
                         detached: true
                     });
                     proc.unref();
                     proc.on('error', (err) => {
-                        console.error('[SoundAlert] Windows SoundPlayer error:', err);
+                        console.error('[SoundAlert] Windows Audio Player error:', err);
                         safeResolve(false);
                     });
                     proc.on('spawn', () => safeResolve(true));
